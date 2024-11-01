@@ -9,9 +9,11 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthenticatedGuard } from './guards/auth.guard';
+import { RolesGuard } from './guards/roles/roles.guard';
+import { Roles } from './decorators/role.decorator';
+import { Role } from './enums/role.enum';
 
 @Controller()
 export class AuthController {
@@ -36,9 +38,10 @@ export class AuthController {
   }
 
   @UseGuards(AuthenticatedGuard)
+  @Roles(Role.ADMIN)
+  @UseGuards(RolesGuard)
   @Get('/profile')
   getProfile(@Request() req) {
-    // Здесь req.user будет установлен после вызова deserializeUser
     return req.user;
   }
 }

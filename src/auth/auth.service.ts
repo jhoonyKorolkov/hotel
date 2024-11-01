@@ -1,11 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { CreateUserDto } from '../users/dto/create-user.dto';
-import { LoginDto } from './dto/login.dto';
-
 import { errors } from '../errors/errors';
 import * as argon from 'argon2';
 import { IUser } from '../users/interfaces/user.interface';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -36,8 +35,8 @@ export class AuthService {
     };
   }
 
-  async login(user: any) {
-    const { id, ...rest } = user;
+  async login(user: LoginDto): Promise<Omit<LoginDto, 'id'>> {
+    const { id, ...rest } = user as any;
     return rest;
   }
 }

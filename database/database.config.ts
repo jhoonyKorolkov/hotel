@@ -11,7 +11,6 @@ export const mongoConfig = async (
   const database = configService.get<string>('MONGO_DB');
 
   const uri = `mongodb://${user}:${password}@${host}:${port}/${database}?authSource=${user}`;
-  console.log(uri);
 
   return {
     uri,

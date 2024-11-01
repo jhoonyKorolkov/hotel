@@ -14,7 +14,9 @@ export class UsersService implements IUserService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async create(user: CreateUserDto): Promise<IUser> {
-    const existsUser = this.findByEmail(user.email);
+    const existsUser = await this.userModel
+      .findOne({ email: user.email })
+      .exec();
 
     if (existsUser) {
       throw new ConflictException('User already exists');
@@ -51,7 +53,6 @@ export class UsersService implements IUserService {
     const { name, passwordHash, contactPhone, _id } = await this.userModel
       .findOne({ email })
       .exec();
-    console.log(123);
 
     const currentUser: IUser = {
       id: _id.toString(),
