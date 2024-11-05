@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { CreateUserDto } from '../users/dto/create-user.dto';
-import { errors } from '../errors/errors';
+import { errors } from '../common/errors/errors';
 import * as argon from 'argon2';
 import { IUser } from '../users/interfaces/user.interface';
 import { LoginDto } from './dto/login.dto';

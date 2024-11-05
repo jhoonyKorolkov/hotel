@@ -7,12 +7,15 @@ import * as session from 'express-session';
 import * as cookieParser from 'cookie-parser';
 import MongoSessionStore from '../database/store.session';
 import * as passport from 'passport';
+import { AllExceptionsFilter } from './common/exceprions/exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = app.get(ConfigService);
 
   app.setGlobalPrefix(config.get('HTTP_PREFIX'));
+
+  app.useGlobalFilters(new AllExceptionsFilter());
 
   const configSwagger = new DocumentBuilder()
     .setTitle(`${config.get('SERVICE_NAME')}`)
@@ -26,7 +29,7 @@ async function bootstrap() {
 
   SwaggerModule.setup(`${config.get('HTTP_PREFIX')}/docs`, app, document);
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   app.use(cookieParser());
 
