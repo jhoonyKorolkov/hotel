@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { HotelRoom, HotelRoomDocument } from './schemas/hotel-room.schema';
 import { CreateHotelDto } from './dto/create-hotel.dto';
 import { IHotel } from './interfaces/hotel.interface';
+import { CreateHotelRoomDto } from './dto/create-hotel-room.dto';
 
 @Injectable()
 export class HotelsService {
@@ -26,5 +27,21 @@ export class HotelsService {
       title: createdHotel.title,
       description: createdHotel.description,
     };
+  }
+
+  async createHotelRoom(roomData: CreateHotelRoomDto): Promise<HotelRoom> {
+    try {
+      // Создаем запись отеля
+      const createdRoom = await this.hotelRoomModel.create(roomData);
+
+      // Загружаем созданный номер с данными отеля, используя populate
+      return this.hotelRoomModel
+        .findById(createdRoom._id)
+        .populate('hotelId') // Указываем поля title и description, которые нужно подгрузить из связанного отеля
+        .exec();
+    } catch (error) {
+      console.error('Ошибка при создании номера отеля:', error);
+      throw new Error('Не удалось создать номер отеля');
+    }
   }
 }
