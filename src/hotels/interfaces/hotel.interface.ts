@@ -1,5 +1,7 @@
+import { Types } from 'mongoose';
+
 export interface IHotel {
-  id: string;
+  _id: Types.ObjectId;
   title: string;
-  description: string;
+  description?: string;
 }

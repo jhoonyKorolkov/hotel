@@ -16,22 +16,20 @@ import { Role } from '../auth/enums/role.enum';
 import { AuthenticatedGuard } from '../auth/guards/auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { CreateHotelRoomDto } from './dto/create-hotel-room.dto';
-import { FileFieldsInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { storageConfig } from '../config/storage.config';
 
+@UseGuards(AuthenticatedGuard, RolesGuard)
+@Roles(Role.ADMIN)
 @Controller('admin')
-export class HotelsController {
+export class AdminHotelsController {
   constructor(private readonly hotelsService: HotelsService) {}
 
-  @UseGuards(AuthenticatedGuard, RolesGuard)
-  @Roles(Role.ADMIN)
   @Post('hotels')
   createHotel(@Body() hotel: CreateHotelDto) {
     return this.hotelsService.createHotel(hotel);
   }
 
-  @UseGuards(AuthenticatedGuard, RolesGuard)
-  @Roles(Role.ADMIN)
   @Post('hotel-rooms')
   @UseInterceptors(
     FilesInterceptor('images', 10, {

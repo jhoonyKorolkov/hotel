@@ -11,6 +11,7 @@ import { FindAllUsersDto } from './dto/find-all-user.dto';
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
+  // Администраторские методы
   @UseGuards(AuthenticatedGuard, RolesGuard)
   @Roles(Role.ADMIN)
   @Post('/admin/users')
@@ -25,6 +26,7 @@ export class UsersController {
     return await this.usersService.findAll(params);
   }
 
+  // Менеджерские методы
   @UseGuards(AuthenticatedGuard, RolesGuard)
   @Roles(Role.MANAGER)
   @Get('/manager/users')

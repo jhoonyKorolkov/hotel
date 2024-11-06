@@ -1,11 +1,14 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Hotel, HotelDocument } from './schemas/hotel.schema';
 import { Model } from 'mongoose';
 import { HotelRoom, HotelRoomDocument } from './schemas/hotel-room.schema';
 import { CreateHotelDto } from './dto/create-hotel.dto';
-import { IHotel } from './interfaces/hotel.interface';
 import { CreateHotelRoomDto } from './dto/create-hotel-room.dto';
+import { SearchRoomsParamsDto } from './dto/search-room-params.dto';
+import { HotelResponseDto } from './dto/hotel-response.dto';
+import { HotelRoomResponseDto } from './dto/hotel-room-response.dto';
+import { IHotel } from './interfaces/hotel.interface';
 
 @Injectable()
 export class HotelsService {
@@ -14,7 +17,7 @@ export class HotelsService {
     @InjectModel(HotelRoom.name) private hotelRoomModel: Model<HotelRoomDocument>,
   ) {}
 
-  async createHotel(hotel: CreateHotelDto): Promise<IHotel> {
+  async createHotel(hotel: CreateHotelDto): Promise<HotelResponseDto> {
     const existsHotel = await this.hotelModel.findOne({ title: hotel.title });
 
     if (existsHotel) {
@@ -29,19 +32,75 @@ export class HotelsService {
     };
   }
 
-  async createHotelRoom(roomData: CreateHotelRoomDto): Promise<HotelRoom> {
-    try {
-      // Создаем запись отеля
-      const createdRoom = await this.hotelRoomModel.create(roomData);
+  async createHotelRoom(roomData: CreateHotelRoomDto): Promise<HotelRoomResponseDto> {
+    const createdRoom = await this.hotelRoomModel.create(roomData);
 
-      // Загружаем созданный номер с данными отеля, используя populate
-      return this.hotelRoomModel
-        .findById(createdRoom._id)
-        .populate('hotelId') // Указываем поля title и description, которые нужно подгрузить из связанного отеля
-        .exec();
-    } catch (error) {
-      console.error('Ошибка при создании номера отеля:', error);
-      throw new Error('Не удалось создать номер отеля');
+    const room = await this.hotelRoomModel
+      .findById(createdRoom._id)
+      .populate<{ hotelId: IHotel }>('hotelId', 'title');
+
+    console.log(room);
+
+    return {
+      id: room._id.toString(),
+      description: room.description,
+      images: room.images,
+      isEnabled: room.isEnabled,
+      hotel: {
+        id: room.hotelId._id.toString(),
+        title: room.hotelId.title,
+      },
+    };
+  }
+
+  async searchHotelRooms(params: SearchRoomsParamsDto): Promise<HotelRoomResponseDto[]> {
+    const { limit, offset, hotel, isEnabled } = params;
+
+    const filter: any = {
+      hotelId: hotel,
+    };
+
+    if (isEnabled === true) {
+      filter.isEnabled = true;
     }
+
+    const rooms = await this.hotelRoomModel
+      .find(filter)
+      .limit(limit)
+      .skip(offset)
+      .populate<{ hotelId: IHotel }>('hotelId', 'title');
+
+    return rooms.map((room) => ({
+      id: room._id.toString(),
+      description: room.description,
+      images: room.images,
+      isEnabled: room.isEnabled,
+      hotel: {
+        id: room.hotelId._id.toString(),
+        title: room.hotelId.title,
+      },
+    }));
+  }
+
+  async searchHotelRoomById(id: string) {
+    const room = await this.hotelRoomModel
+      .findById(id)
+      .populate<{ hotelId: IHotel }>('hotelId', 'title description');
+
+    if (!room) {
+      throw new NotFoundException('Номер с таким ID не найден');
+    }
+
+    return {
+      id: room._id.toString(),
+      description: room.description,
+      images: room.images,
+      isEnabled: room.isEnabled,
+      hotel: {
+        id: room.hotelId._id.toString(),
+        title: room.hotelId.title,
+        description: room.hotelId.description,
+      },
+    };
   }
 }

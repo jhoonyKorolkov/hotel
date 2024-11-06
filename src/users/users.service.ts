@@ -74,11 +74,7 @@ export class UsersService implements IUserService {
     if (email) filter.emal = new RegExp(email, 'i');
     if (contactPhone) filter.contactPhone = new RegExp(contactPhone, 'i');
 
-    return this.userModel
-      .find(filter)
-      .skip(offset || 0)
-      .limit(limit || 2)
-      .exec();
+    return this.userModel.find(filter).skip(offset).limit(limit).exec();
   }
 
   async findById(id: string): Promise<IUser> {
