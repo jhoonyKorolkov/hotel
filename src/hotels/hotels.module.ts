@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Hotel, HotelSchema } from './schemas/hotel.schema';
 import { HotelRoom, HotelRoomSchema } from './schemas/hotel-room.schema';
 import { PublicHotelsController } from './public-hotels.controller';
+import { LoggerModule } from '../common/logger/services/logger.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { PublicHotelsController } from './public-hotels.controller';
         schema: HotelRoomSchema,
       },
     ]),
+    LoggerModule,
   ],
   controllers: [AdminHotelsController, PublicHotelsController],
   providers: [HotelsService],

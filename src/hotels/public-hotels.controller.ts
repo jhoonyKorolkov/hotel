@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
-import { SearchRoomsParamsDto } from './dto/search-room-params.dto';
+import { SearchRoomParamsDto } from './dto/search-room-params.dto';
 import { HotelsService } from './hotels.service';
 import { ValidateObjectIdPipe } from '../common/pipes/validate-object-id.pipe';
 
@@ -8,7 +8,7 @@ export class PublicHotelsController {
   constructor(private hotelsService: HotelsService) {}
 
   @Get('hotel-rooms')
-  async search(@Query() params: SearchRoomsParamsDto) {
+  async search(@Query() params: SearchRoomParamsDto) {
     return await this.hotelsService.searchHotelRooms(params);
   }
 

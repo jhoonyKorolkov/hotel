@@ -11,7 +11,7 @@ export class HotelRoom {
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Hotel' })
   hotelId: Types.ObjectId;
 
-  @Prop({ required: false, type: [String], default: [] })
+  @Prop({ type: [String], default: [] })
   images: string[];
 
   @Prop({ required: true, default: true })

@@ -1,4 +1,5 @@
 import { ArrayNotEmpty, IsArray, IsBoolean, IsOptional, IsString } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class CreateHotelRoomDto {
   @IsString()
@@ -13,4 +14,9 @@ export class CreateHotelRoomDto {
   @ArrayNotEmpty()
   @IsString({ each: true })
   images?: string[];
+
+  @IsOptional()
+  @IsBoolean()
+  @Transform(({ value }) => value === 'true' || value === true)
+  isEnabled?: boolean;
 }

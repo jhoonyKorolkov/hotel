@@ -4,7 +4,7 @@ import * as MongoDBStore from 'connect-mongodb-session';
 const MongoDBStoreSession = MongoDBStore(session);
 
 const MongoSessionStore = new MongoDBStoreSession({
-  uri: 'mongodb://admin:flooder22@localhost:27017/hotel?authSource=admin', // Замените на ваш URL подключения к MongoDB
+  uri: 'mongodb://admin:flooder22@localhost:27017/hotel?authSource=admin',
   collection: 'sessions',
 });
 
