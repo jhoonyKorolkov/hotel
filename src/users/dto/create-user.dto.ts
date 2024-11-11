@@ -31,5 +31,5 @@ export class CreateUserDto {
   contactPhone: string;
 
   @IsEnum(Role)
-  role: Role = Role.USER;
+  role: Role = Role.CLIENT;
 }

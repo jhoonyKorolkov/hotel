@@ -18,7 +18,7 @@ export class User {
   @Prop()
   contactPhone: string;
 
-  @Prop({ enum: Role, default: Role.USER })
+  @Prop({ enum: Role, default: Role.CLIENT })
   role: Role;
 }
 

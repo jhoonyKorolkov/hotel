@@ -7,6 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { mongoConfig } from './config/database.config';
 import { WinstonModule } from 'nest-winston';
 import { winstonConfig } from './config/logger-config';
+import { ReservationModule } from './reservation/reservation.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { winstonConfig } from './config/logger-config';
     HotelsModule,
     UsersModule,
     AuthModule,
+    ReservationModule,
   ],
 })
 export class AppModule {}

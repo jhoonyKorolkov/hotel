@@ -1,5 +1,4 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { IUserService } from './interfaces/user-service.interface';
 import { CreateUserDto } from './dto/create-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/user.shema';
@@ -11,7 +10,7 @@ import { IUserByAdmin } from './interfaces/user-created-by-admin.interface';
 import { FindAllUsersDto } from './dto/find-all-user.dto';
 
 @Injectable()
-export class UsersService implements IUserService {
+export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async create(user: CreateUserDto): Promise<IUser> {
