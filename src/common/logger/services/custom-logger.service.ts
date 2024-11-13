@@ -17,6 +17,4 @@ export class CustomLoggerService implements LoggerService {
   warn(message: string) {
     this.logger.warn(message);
   }
-
-  // Реализуйте другие методы при необходимости
 }

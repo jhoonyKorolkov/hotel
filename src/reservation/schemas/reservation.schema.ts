@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument, Schema as MongooseSchema, Types } from 'mongoose';
 
 export type ReservationDocument = HydratedDocument<Reservation>;
 
@@ -8,10 +8,10 @@ export class Reservation {
   @Prop({ required: true })
   userId: Types.ObjectId;
 
-  @Prop({ required: true })
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Hotel', required: true })
   hotelId: Types.ObjectId;
 
-  @Prop({ required: true })
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'HotelRoom', required: true })
   roomId: Types.ObjectId;
 
   @Prop({ required: true })

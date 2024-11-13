@@ -4,10 +4,10 @@ import { CreateReservationDto } from '../../reservation/dto/create-reservation.d
 @Injectable()
 export class DateValidationPipe implements PipeTransform {
   transform(value: CreateReservationDto) {
-    const { startDate, endDate } = value;
+    const { dateStart, dateEnd } = value;
 
-    const start = new Date(startDate);
-    const end = new Date(endDate);
+    const start = new Date(dateStart);
+    const end = new Date(dateEnd);
     const now = new Date();
 
     if (isNaN(start.getTime()) || isNaN(end.getTime())) {
@@ -21,9 +21,6 @@ export class DateValidationPipe implements PipeTransform {
     if (start < now) {
       throw new BadRequestException('Дата начала не может быть в прошлом.');
     }
-
-    value.startDate = start.toString();
-    value.endDate = end.toString();
 
     return value;
   }

@@ -1,6 +1,6 @@
 export class ResponseReservationDto {
-  startDate: string;
-  endDate: string;
+  dateStart: string;
+  dateEnd: string;
   hotelRoom: {
     description: string;
     images: string[];

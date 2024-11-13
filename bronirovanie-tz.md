@@ -65,15 +65,15 @@ POST /api/client/reservations
 
 {  
  "hotelRoom": "string",  
- "startDate": "string",  
- "endDate": "string"  
+ "dateStart": "string",  
+ "dateEnd": "string"  
 }
 
 **Формат ответа**
 
 {  
- "startDate": "string",  
- "endDate": "string",  
+ "dateStart": "string",  
+ "dateEnd": "string",  
  "hotelRoom": {  
  "description": "string",  
  "images": ["string"]  
@@ -105,8 +105,8 @@ GET /api/client/reservations
 
 [  
  {  
- "startDate": "string",  
- "endDate": "string",  
+ "dateStart": "string",  
+ "dateEnd": "string",  
  "hotelRoom": {  
  "description": "string",  
  "images": ["string"]  
@@ -159,8 +159,8 @@ GET /api/manager/reservations/:userId
 
 [  
  {  
- "startDate": "string",  
- "endDate": "string",  
+ "dateStart": "string",  
+ "dateEnd": "string",  
  "hotelRoom": {  
  "description": "string",  
  "images": ["string"]  
