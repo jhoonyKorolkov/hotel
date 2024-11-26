@@ -9,11 +9,13 @@ export class Support {
   @Prop({ required: true, type: MongooseSchema.Types.ObjectId, ref: 'User' })
   user: Types.ObjectId;
 
-  @Prop({ type: [MessageSchema], default: [] })
-  messages: Message[];
+  @Prop({ type: [MongooseSchema.Types.ObjectId], ref: 'Message', default: [] })
+  messages: Types.ObjectId[];
 
   @Prop({ default: true })
   isActive: boolean;
+
+  createdAt: Date;
 }
 
 export const SupportSchema = SchemaFactory.createForClass(Support);

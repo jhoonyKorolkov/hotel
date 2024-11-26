@@ -8,6 +8,8 @@ import { mongoConfig } from './config/database.config';
 import { WinstonModule } from 'nest-winston';
 import { winstonConfig } from './config/logger-config';
 import { ReservationModule } from './reservation/reservation.module';
+import { SupportModule } from './support/support.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -19,11 +21,13 @@ import { ReservationModule } from './reservation/reservation.module';
       inject: [ConfigService],
       useFactory: mongoConfig,
     }),
+    EventEmitterModule.forRoot(),
     WinstonModule.forRoot(winstonConfig),
     HotelsModule,
     UsersModule,
     AuthModule,
     ReservationModule,
+    SupportModule,
   ],
 })
 export class AppModule {}

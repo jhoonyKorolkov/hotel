@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Reservation, ReservationDocument } from './schemas/reservation.schema';
-import mongoose, { Model, Types } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { CustomLoggerService } from '../common/logger/services/custom-logger.service';
 import { Hotel, HotelDocument } from '../hotels/schemas/hotel.schema';

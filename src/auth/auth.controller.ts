@@ -51,7 +51,7 @@ export class AuthController {
         return res.status(500).send('Ошибка при выходе');
       }
       req.session.destroy(() => {
-        res.clearCookie('connect.sid'); // Удаляем куки с сессией
+        res.clearCookie('connect.sid');
         res.send({ message: 'Вы вышли из системы' });
       });
     });

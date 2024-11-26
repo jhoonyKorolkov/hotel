@@ -6,6 +6,7 @@ import { Roles } from '../auth/decorators/role.decorator';
 import { AuthenticatedGuard } from '../auth/guards/auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { DateValidationPipe } from '../common/pipes/validate-date-reservation.pipe';
+import { ValidateObjectIdPipe } from '../common/pipes/validate-object-id.pipe';
 
 @Controller('client')
 export class PublicReservationController {
@@ -28,7 +29,7 @@ export class PublicReservationController {
   @UseGuards(AuthenticatedGuard, RolesGuard)
   @Roles(Role.CLIENT)
   @Delete('reservations/:id')
-  clientDeleteReservations(@Param('id') id: string) {
+  clientDeleteReservations(@Param('id', ValidateObjectIdPipe) id: string) {
     return this.reservationService.clientDeleteReservation(id);
   }
 }

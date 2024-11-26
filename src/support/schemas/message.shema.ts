@@ -11,8 +11,11 @@ export class Message {
   @Prop({ required: true })
   text: string;
 
-  @Prop()
-  readAt: Date;
+  @Prop({ required: true, default: () => new Date() })
+  sentAt: Date;
+
+  @Prop({ default: null })
+  readAt: Date | null;
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);
