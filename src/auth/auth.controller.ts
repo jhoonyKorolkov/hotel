@@ -25,7 +25,7 @@ export class AuthController {
   @UseGuards(NotAuthenticatedGuard)
   @Post('/client/register')
   async register(@Body() user: CreateUserDto) {
-    return await this.authService.register(user);
+    return this.authService.register(user);
   }
 
   @UseGuards(NotAuthenticatedGuard, AuthGuard('local'))
