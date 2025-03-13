@@ -72,13 +72,16 @@ export class HotelsService {
   }
 
   async searchHotels(params: SearchHotelParamsDto): Promise<HotelResponseDto[]> {
+    const test = (title: string, filter: any) => {
+      if (title) {
+        filter.title = title;
+      }
+    };
     try {
       const { limit, offset, title } = params;
 
       const filter: any = {};
-      if (title) {
-        filter.title = title;
-      }
+      test(title, filter);
 
       const hotels = await this.hotelModel.find(filter).limit(limit).skip(offset);
 

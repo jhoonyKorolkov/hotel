@@ -50,6 +50,7 @@ export class AuthService {
 
   async login(user: LoginDto): Promise<Omit<LoginDto, 'id'>> {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { id, ...rest } = user as any;
       return rest;
     } catch (error) {
